@@ -44,7 +44,7 @@ app.get('/api/test', (req, res) => {
 
 // ✅ Token Authentication Middleware (Excluding Auth Routes)
 app.use((req, res, next) => {
-  const publicRoutes = ['/auth/login', '/auth/forgot-password', '/auth/refresh-token', '/auth/register-superadmin', '/health'];
+  const publicRoutes = ['/api/auth/login', '/auth/forgot-password', '/auth/refresh-token', '/auth/register-superadmin', '/health'];
   if (publicRoutes.includes(req.path)) {
     return next();
   }
