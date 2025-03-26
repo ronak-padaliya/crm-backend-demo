@@ -1,0 +1,33 @@
+name: Deploy Node.js App to AWS
+
+on:
+  push:
+    branches:
+      - main  # Deploy when pushed to the main branch
+
+jobs:
+  deploy:
+    runs-on: self-hosted  # Run on the EC2 self-hosted runner
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build TypeScript
+        run: npm run build  # Ensure you have a build script in package.json
+
+      - name: Restart Application with PM2
+        run: |
+          pm2 stop all || true
+          pm2 start npm -- start
+          pm2 save
+

@@ -1,0 +1,314 @@
+-- Create enum for user roles
+CREATE TYPE user_role AS ENUM ('superAdmin', 'admin', 'supervisor', 'salesperson');
+
+-- Create roles table
+CREATE TABLE roles (
+    id SERIAL PRIMARY KEY,
+    role user_role UNIQUE NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO roles (role) VALUES 
+('superAdmin'),
+('admin'),
+('supervisor'),
+('salesperson');
+
+-- Create organizations table
+CREATE TABLE organizations (
+    id SERIAL PRIMARY KEY,
+    org_name VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    firstname VARCHAR(50) NOT NULL,
+    lastname VARCHAR(50) NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    password TEXT NOT NULL,
+    phone VARCHAR(20) NOT NULL,
+    role_id INT NOT NULL REFERENCES roles(id) ON DELETE CASCADE,
+    org_id INT DEFAULT NULL REFERENCES organizations(id) ON DELETE SET NULL,
+    supervisor_id INT DEFAULT NULL REFERENCES users(id) ON DELETE SET NULL,
+    admin_id INT DEFAULT NULL REFERENCES users(id) ON DELETE SET NULL,
+    is_deleted BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+CREATE TABLE password_reset_tokens (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    token TEXT NOT NULL,
+    otp VARCHAR(6) NOT NULL,
+    expires_at TIMESTAMP NOT NULL DEFAULT (NOW() + INTERVAL '15 minutes'),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+
+-- Create superadmin_registration_keys table
+
+CREATE TABLE superadmin_registration_keys (
+    id SERIAL PRIMARY KEY,
+    registration_key VARCHAR(100) NOT NULL,
+    is_used BOOLEAN DEFAULT false,
+    created_at TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    used_at TIMESTAMP WITHOUT TIME ZONE
+);
+
+INSERT INTO superadmin_registration_keys (registration_key, is_used, created_at, used_at)
+VALUES ('SUPER_ADMIN_2025', false, CURRENT_TIMESTAMP, NULL);
+
+
+
+CREATE TABLE IF NOT EXISTS modules (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(50) UNIQUE NOT NULL
+);
+
+-- Insert fixed list of modules
+INSERT INTO modules (name) VALUES 
+('sales_cards'),
+('chats')
+ON CONFLICT (name) DO NOTHING;
+
+
+
+CREATE TABLE IF NOT EXISTS permissions (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(50) UNIQUE NOT NULL
+);
+
+-- Insert fixed list of permissions
+INSERT INTO permissions (name) VALUES 
+('read'),
+('write'),
+('update'),
+('delete')
+ON CONFLICT (name) DO NOTHING;
+
+CREATE TABLE role_permissions (
+--     user_id INTEGER,
+--     module_id INTEGER,
+--     permission_ids INTEGER[],
+--     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+--     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+--     PRIMARY KEY (user_id, module_id)
+-- );
+
+
+
+
+CREATE TABLE customers (
+    id SERIAL PRIMARY KEY,
+    firstname VARCHAR(50),
+    lastname VARCHAR(50),
+    email VARCHAR(255) UNIQUE,
+    phone VARCHAR(20),
+    is_deleted BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+CREATE TABLE sales_status (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(50) UNIQUE NOT NULL
+);
+
+-- Insert predefined sales statuses
+INSERT INTO sales_status (name) VALUES 
+('Interested'),
+('Convinced'),
+('Performa Invoice'),
+('Order Confirmed')
+ON CONFLICT (name) DO NOTHING;
+
+
+CREATE TABLE sales_cards (
+    id SERIAL PRIMARY KEY,
+    user_id INT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    customer_id INT NOT NULL REFERENCES customers(id) ON DELETE CASCADE,
+    status_id INT NOT NULL REFERENCES sales_status(id) ON DELETE CASCADE,
+    title VARCHAR(255) NOT NULL,
+    description TEXT NOT NULL,
+    is_deleted BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE chat_rooms (
+    id SERIAL PRIMARY KEY,          -- Unique identifier for each chat room
+    name VARCHAR(255) NOT NULL,     -- Name of the chat room
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP -- Timestamp of when the room was created
+);
+
+CREATE TABLE chat_messages (
+    id SERIAL PRIMARY KEY,          -- Unique identifier for each message
+	ADD COLUMN room_id INT NOT NULL;
+	ADD FOREIGN KEY (room_id) REFERENCES chat_rooms(id) ON DELETE CASCADE;
+    sender_id INT NOT NULL,         -- ID of the sender (assuming it's an integer)
+    receiver_id INT NOT NULL,       -- ID of the receiver (assuming it's an integer)
+    content TEXT NOT NULL,          -- The message content
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Timestamp of when the message was sent
+    FOREIGN KEY (sender_id) REFERENCES users(id) ON DELETE CASCADE, -- Foreign key constraint for sender
+    FOREIGN KEY (receiver_id) REFERENCES users(id) ON DELETE CASCADE  -- Foreign key constraint for receiver
+);
+
+Updated 
+CREATE TABLE chat_messages (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),  -- Unique identifier for each message
+    room_id INTEGER NOT NULL REFERENCES chat_rooms(id) ON DELETE CASCADE, -- Link to chat_rooms table
+    sender_id VARCHAR(255) NOT NULL,  -- Stores sender's email or user ID
+    content TEXT NOT NULL,            -- The actual message content
+    timestamp TIMESTAMP DEFAULT NOW() -- Auto-filled timestamp when message is sent
+);
+
+-- Create the chat_images table
+CREATE TABLE chat_images (
+    id SERIAL PRIMARY KEY,          -- Unique identifier for each image record
+    room_id VARCHAR(255) NOT NULL,  -- Room ID associated with the image
+    sender_id VARCHAR(255) NOT NULL, -- Sender ID associated with the image
+    image_url TEXT NOT NULL,         -- URL of the uploaded image
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Timestamp of when the image was uploaded
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP -- Timestamp of the last update
+);
+
+-- Create the trigger function
+CREATE OR REPLACE FUNCTION update_timestamp()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.updated_at = CURRENT_TIMESTAMP;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Create the trigger
+CREATE TRIGGER update_chat_images_timestamp
+BEFORE UPDATE ON chat_images
+FOR EACH ROW
+EXECUTE FUNCTION update_timestamp();
+
+
+
+
+
+
+CREATE TABLE IF NOT EXISTS followup_iterations (
+    id SERIAL PRIMARY KEY,
+    iteration VARCHAR(5) NOT NULL,
+    days INT NOT NULL,
+    orgId INT NOT NULL,
+    UNIQUE (iteration, orgId)  -- Composite unique constraint on iteration and orgId
+);
+
+INSERT INTO followup_iterations (iteration, days, orgId) VALUES 
+('F1', 5, 1), 
+('F2', 10, 1), 
+('F3', 15, 1), 
+('F4', 30, 1)
+ON CONFLICT (iteration) DO NOTHING;
+
+
+CREATE TABLE IF NOT EXISTS tasks (
+    id SERIAL PRIMARY KEY,
+    sales_card_id INT NOT NULL REFERENCES sales_cards(id) ON DELETE CASCADE,
+    salesperson_id INT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    status VARCHAR(20) DEFAULT 'Pending', -- 'Pending' or 'Completed'
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS task_followups (
+    id SERIAL PRIMARY KEY,
+    task_id INT NOT NULL REFERENCES tasks(id) ON DELETE CASCADE,
+    iteration VARCHAR(5) NOT NULL, -- F1, F2, etc.
+    followup_date TIMESTAMP NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS notifications (
+    id SERIAL PRIMARY KEY,
+    user_id INT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    message TEXT NOT NULL,
+    image TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+-- UPDATE sales_cards SET created_at = '2025-03-01T10:00:00.000Z' WHERE id = 17;
+-- UPDATE tasks SET created_at = '2025-03-01T10:00:00.000Z' WHERE id = 6;
+
+-- UPDATE task_followups 
+-- SET followup_date = '2025-03-06T10:00:00.000Z' 
+-- WHERE task_id = 6 AND iteration = 'F1';
+
+-- Wait Until March 16, 2025 (or manually update in DB to today)
+-- UPDATE task_followups SET followup_date = NOW() WHERE task_id = 6 AND iteration = 'F2';
+------------------------------------------------------------------------------------------------
+-- Step 1: Adjust Sales Card and Task Creation Date
+-- UPDATE sales_cards 
+-- SET created_at = NOW() - INTERVAL '5 days' 
+-- WHERE id = 19;
+
+-- UPDATE tasks 
+-- SET created_at = NOW() - INTERVAL '5 days' 
+-- WHERE id = 8;
+
+-- Step 2: Set F1 Follow-Up as Completed 24 Hours Ago
+-- UPDATE task_followups 
+-- SET followup_date = NOW() - INTERVAL '1 day' 
+-- WHERE task_id = 8 AND iteration = 'F1';
+
+-- Step 3: Set F2 Follow-Up to Be Due Today
+-- UPDATE task_followups 
+-- SET followup_date = NOW() 
+-- WHERE task_id = 8 AND iteration = 'F2';
+
+-- Step 4: Ensure Task Status is Still Pending
+-- UPDATE tasks 
+-- SET status = 'Pending' 
+-- WHERE id = 8;
+
+
+
+CREATE TABLE salescardnotification (
+    id SERIAL PRIMARY KEY,
+    salescard_id INT REFERENCES sales_cards(id) ON DELETE CASCADE,
+    customer_name VARCHAR(255),
+    image_url TEXT,
+    approved_by INT REFERENCES users(id) ON DELETE SET NULL,
+    rejected_by INT REFERENCES users(id) ON DELETE SET NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+updated 
+CREATE TABLE notificationForSalesCard (
+    id SERIAL PRIMARY KEY,
+    sales_card_id INT NOT NULL REFERENCES sales_cards(id) ON DELETE CASCADE,
+    sender_id INT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    receiver_role VARCHAR(50) CHECK (receiver_role IN ('supervisor', 'admin')),
+    receiver_id INT,
+    status VARCHAR(50) DEFAULT 'waiting_for_approval' CHECK (status IN ('waiting_for_approval', 'approved', 'rejected')),
+    image_url TEXT,
+    message TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT NOW(),
+    updated_at TIMESTAMP DEFAULT NOW()
+);
+
+
+CREATE TABLE refresh_tokens (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    token TEXT NOT NULL UNIQUE,
+    expires_at TIMESTAMP NOT NULL,
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+-- Create an index for faster lookup
+CREATE INDEX idx_refresh_tokens_user_id ON refresh_tokens(user_id);
