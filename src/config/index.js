@@ -34,7 +34,7 @@ var __importStar = (this && this.__importStar) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.config = void 0;
-const dotenv = __importStar(require("dotenv"));
+const dotenv = require("dotenv");
 dotenv.config();
 // console.log("NODE_ENV => ", process.env.PORT);
 // if (process.env.NODE_ENV === 'development')

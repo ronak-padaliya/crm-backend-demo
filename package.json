@@ -23,7 +23,7 @@
   "scripts": {
     "build": "tsc",
     "start": "npm run build && node dist/app.js",
-    "dev": "nodemon src/app.ts",
+   "dev": "nodemon --exec node --loader ts-node/esm src/app.ts",
     "watch": "tsc -w"
   },
   "dependencies": {
@@ -44,6 +44,7 @@
     "nodemailer": "^6.10.0",
     "pg": "^8.13.3",
     "socket.io": "^4.8.1",
+    "tsconfig-paths": "^4.2.0",
     "uuid": "^11.1.0",
     "websocket.io": "^0.2.1",
     "winston": "^3.17.0",

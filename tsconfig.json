@@ -35,20 +35,46 @@
 // }
 
 
+// {
+//   "compilerOptions": {
+//     "module": "NodeNext",
+//     "moduleResolution": "NodeNext",
+//     "target": "ESNext",
+//     "outDir": "./dist",
+//     "rootDir": "./src",
+//     "strict": false,
+//     "sourceMap": true,
+//     "resolveJsonModule": true,
+//     "esModuleInterop": true,
+//     "emitDecoratorMetadata": true,
+//     "experimentalDecorators": true,
+//     "typeRoots": ["./node_modules/@types", "./src/@types"],
+//     "allowSyntheticDefaultImports": true
+//   },
+//   "include": ["src/**/*"],
+//   "exclude": ["node_modules", "**/*.spec.ts"]
+// }
+
 {
   "compilerOptions": {
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
+    "target": "ESNext",
     "outDir": "./dist",
     "rootDir": "./src",
     "strict": false,
     "sourceMap": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "typeRoots": ["./node_modules/@types", "./src/@types"]
+    "allowSyntheticDefaultImports": true,
+    "noEmit": true
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "**/*.spec.ts"]
 }
+
+
