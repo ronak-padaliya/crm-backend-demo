@@ -1,5 +1,5 @@
 import { QueryResult } from 'pg';
-import db from './helper/database';
+import db from './helper/database.js';
 import express, { Request, Response } from 'express';
 
 const app = express();

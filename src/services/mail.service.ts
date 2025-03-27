@@ -1,4 +1,4 @@
-import { transporter } from '../helper/mail';
+import { transporter } from '../helper/mail.js';
 
 export class MailService {
   static async sendPasswordMail(email: string, password: string, role: string) {
