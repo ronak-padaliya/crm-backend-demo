@@ -1,9 +1,9 @@
 import { Router, Request, Response, NextFunction } from "express";
 // import { app, upload } from '../app';
-import { AuthenticatedRequest } from '../types';
-import { SalesCardController } from "../controllers/salesCards.controller";
+import { AuthenticatedRequest } from '../types/index.js';
+import { SalesCardController } from "../controllers/salesCards.controller.js";
 import { body } from 'express-validator';
-import { checkRole } from '../middleware/auth';
+import { checkRole } from '../middleware/auth.js';
 import multer from "multer";
 const upload = multer({ storage: multer.memoryStorage() });
 

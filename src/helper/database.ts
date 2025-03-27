@@ -1,5 +1,5 @@
 import { Pool, PoolConfig } from 'pg';
-import { config } from '../config';
+import { config } from '../config/index.js';
 
 //  Debug: Check if DATABASE_URL is available
 // console.log('NODE_ENV:', process.env.NODE_ENV);

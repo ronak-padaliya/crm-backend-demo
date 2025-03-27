@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { TaskController } from "../controllers/taskController";
-import { authenticateToken, checkRole, getAllDataForSuperAdmin } from '../middleware/auth';
+import { TaskController } from "../controllers/taskController.js";
+import { authenticateToken, checkRole, getAllDataForSuperAdmin } from '../middleware/auth.js';
 
 
 const router = Router();

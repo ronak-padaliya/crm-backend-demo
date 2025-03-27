@@ -1,10 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
 import { validationResult } from 'express-validator';
-import { salespersonQueries } from '../query';
-import { successResponse, errorResponse, ResponseMessages } from '../utils/responses';
+import { salespersonQueries } from '../query.js';
+import { successResponse, errorResponse, ResponseMessages } from '../utils/responses.js';
 import bcrypt from 'bcryptjs';
-import { MailService } from '../services/mail.service';
-import { AuthenticatedRequest } from '../types';
+import { MailService } from '../services/mail.service.js';
+import { AuthenticatedRequest } from '../types/index.js';
 
 export class SalespersonController {
 

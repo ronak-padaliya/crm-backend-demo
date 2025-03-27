@@ -1,11 +1,11 @@
 import { Request, Response, NextFunction } from 'express';
 import bcrypt from 'bcryptjs';
 import jwt, { Secret, SignOptions } from 'jsonwebtoken';
-import db from '../helper/database';
-import { MailService } from '../services/mail.service';
-import { successResponse, errorResponse, ResponseMessages } from '../utils/responses';
-import { AuthenticatedRequest } from '../types';
-import { authQueries, organizationQueries } from '../query';
+import db from '../helper/database.js';
+import { MailService } from '../services/mail.service.js';
+import { successResponse, errorResponse, ResponseMessages } from '../utils/responses.js';
+import { AuthenticatedRequest } from '../types/index.js';
+import { authQueries, organizationQueries } from '../query.js';
 
 interface ChangePasswordBody {
   currentPassword: string;

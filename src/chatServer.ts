@@ -70,7 +70,7 @@
 
 import { Server } from 'http';
 import WebSocket, { WebSocketServer } from 'ws';
-import db from './helper/database';
+import db from './helper/database.js';
 
 const rooms = new Map<string, Set<WebSocket>>(); // Track users per room
 

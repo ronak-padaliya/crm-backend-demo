@@ -1,15 +1,15 @@
 // controllers/salesCardController.ts
 import { Request, Response, NextFunction } from "express";
-import { salesCardQueries } from "../query";
-import { successResponse, errorResponse } from "../utils/responses";
-import { createTask } from "../models/taskModel";
-import { notificationQueries } from "../query";
-import { AuthenticatedRequest } from '../types';
+import { salesCardQueries } from "../query.js";
+import { successResponse, errorResponse } from "../utils/responses.js";
+import { createTask } from "../models/taskModel.js";
+import { notificationQueries } from "../query.js";
+import { AuthenticatedRequest } from '../types/index.js';
 import { v2 as cloudinary } from 'cloudinary';
 import multer from 'multer';
 import { UploadApiResponse } from 'cloudinary';
 
-import { sendNotificationForSalesCard } from '../utils/notificationService';
+import { sendNotificationForSalesCard } from '../utils/notificationService.js';
 // import { sendWebSocketNotification } from '../app'; // Adjust the path as necessary
 
 cloudinary.config({

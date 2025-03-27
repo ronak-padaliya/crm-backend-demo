@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { validationResult } from 'express-validator';
-import { rolesPermissionsQueries } from '../query';
+import { rolesPermissionsQueries } from '../query.js';
 
 export class RolesPermissionsController {
   static async getPermissionsByRole(req: Request, res: Response): Promise<void> {

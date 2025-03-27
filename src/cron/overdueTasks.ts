@@ -1,6 +1,6 @@
 import cron from 'node-cron';
 import { Server } from 'socket.io';
-import db from '../helper/database';
+import db from '../helper/database.js';
 
 // Reference to Socket.IO (Will be set later)
 let io: Server;

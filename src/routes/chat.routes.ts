@@ -1,11 +1,11 @@
 import { Router, Request, Response } from 'express';
-import db from '../helper/database';
-import { errorResponse, successResponse } from '../utils/responses';
+import db from '../helper/database.js';
+import { errorResponse, successResponse } from '../utils/responses.js';
 import { v4 as uuidv4 } from 'uuid';
 import cloudinary from 'cloudinary';
 import multer from 'multer';
-import { AuthenticatedRequest } from '../types';
-import { checkRole } from '../middleware/auth';
+import { AuthenticatedRequest } from '../types/index.js';
+import { checkRole } from '../middleware/auth.js';
 
 
 cloudinary.v2.config({

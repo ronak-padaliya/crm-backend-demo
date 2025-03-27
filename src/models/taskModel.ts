@@ -1,5 +1,5 @@
-import db from '../helper/database';
-import { getIterations } from '../config/iterations';
+import db from '../helper/database.js';
+import { getIterations } from '../config/iterations.js';
 
 export const createTask = async (salesCardId, salespersonId) => {
     const task = await db.query(

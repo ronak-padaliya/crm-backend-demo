@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import db from "../helper/database";
-import { successResponse, errorResponse } from "../utils/responses";
-import * as taskModel from "../models/taskModel";
-import { AuthenticatedRequest } from '../types';
+import db from "../helper/database.js";
+import { successResponse, errorResponse } from "../utils/responses.js";
+import * as taskModel from "../models/taskModel.js";
+import { AuthenticatedRequest } from '../types/index.js';
 
 
 export class TaskController {

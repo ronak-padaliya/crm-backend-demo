@@ -1,11 +1,11 @@
 import { Router } from 'express';
-import { OrganizationController } from '../controllers/organization.controller';
+import { OrganizationController } from '../controllers/organization.controller.js';
 import { RequestHandler } from 'express';
 import { body } from 'express-validator';
-import { authenticateToken } from '../middleware/auth';
-import { checkRole } from '../middleware/auth';
+import { authenticateToken } from '../middleware/auth.js';
+import { checkRole } from '../middleware/auth.js';
 import { Request, Response, NextFunction } from 'express';
-import { AuthenticatedRequest } from '../types';
+import { AuthenticatedRequest } from '../types/index.js';
 
 const router = Router();
 const organizationController = new OrganizationController();

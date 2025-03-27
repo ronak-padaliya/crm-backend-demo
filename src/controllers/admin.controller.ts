@@ -1,10 +1,10 @@
 import { NextFunction, Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
-import { adminQueries } from '../query';
+import { adminQueries } from '../query.js';
 import { body, validationResult } from 'express-validator';
-import { MailService } from '../services/mail.service';
-import { successResponse, errorResponse, ResponseMessages } from '../utils/responses';
-import { AuthenticatedRequest } from '../types';
+import { MailService } from '../services/mail.service.js';
+import { successResponse, errorResponse, ResponseMessages } from '../utils/responses.js';
+import { AuthenticatedRequest } from '../types/index.js';
 
 export class AdminController {
 

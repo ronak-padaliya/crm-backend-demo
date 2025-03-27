@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { checkOverdueTasks } from "../cron/overdueTasks";
+import { checkOverdueTasks } from "../cron/overdueTasks.js";
 
 const router = Router();
 

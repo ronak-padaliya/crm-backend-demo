@@ -1,7 +1,7 @@
 import { RequestHandler, Router } from "express";
-import { CustomerController } from "../controllers/customers.controller";
-import { AuthenticatedRequest } from '../types';
-import { checkRole } from '../middleware/auth';
+import { CustomerController } from "../controllers/customers.controller.js";
+import { AuthenticatedRequest } from '../types/index.js';
+import { checkRole } from '../middleware/auth.js';
 
 
 const router = Router();

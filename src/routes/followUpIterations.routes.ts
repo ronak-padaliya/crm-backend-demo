@@ -1,8 +1,8 @@
 import { Router, RequestHandler, Request, Response, NextFunction } from 'express';
-import { FollowUpIterationsController } from '../controllers/followUpIterations.controller';
+import { FollowUpIterationsController } from '../controllers/followUpIterations.controller.js';
 import { body } from 'express-validator';
-import { AuthenticatedRequest } from '../types';
-import { authenticateToken, checkRole } from '../middleware/auth';
+import { AuthenticatedRequest } from '../types/index.js';
+import { authenticateToken, checkRole } from '../middleware/auth.js';
 
 const router = Router();
 

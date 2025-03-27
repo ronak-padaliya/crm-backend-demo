@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import { validationResult } from 'express-validator';
-import { successResponse, errorResponse, ResponseMessages } from '../utils/responses';
-import { followUpIterationQueries } from '../query';
-import { AuthenticatedRequest } from '../types';
+import { successResponse, errorResponse, ResponseMessages } from '../utils/responses.js';
+import { followUpIterationQueries } from '../query.js';
+import { AuthenticatedRequest } from '../types/index.js';
 
 
 export class FollowUpIterationsController {

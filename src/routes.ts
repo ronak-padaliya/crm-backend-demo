@@ -1,17 +1,17 @@
 import { Router } from 'express';
-import authRoutes from './routes/auth.routes';
-import organizationRoutes from './routes/organization.routes';
-import adminRoutes from './routes/admin.routes';
-import supervisorRoutes from './routes/supervisor.routes';
-import salespersonRoutes from './routes/salesperson.routes';
-import rolesPermissionsRoutes from './routes/rolesPermissions.routes';
-import salesCardsRoutes from './routes/salesCards.routes';
-import customersRoutes from './routes/customers.routes';
-import chatRoutes from './routes/chat.routes';
-import roomsRoutes from './routes/rooms.routes';
-import taskRoutes from "./routes/taskRoutes";
-import followUpIterationsRoutes from "./routes/followUpIterations.routes";
-import cronRoutes from "./routes/cronRoutes";
+import authRoutes from './routes/auth.routes.js';
+import organizationRoutes from './routes/organization.routes.js';
+import adminRoutes from './routes/admin.routes.js';
+import supervisorRoutes from './routes/supervisor.routes.js';
+import salespersonRoutes from './routes/salesperson.routes.js';
+import rolesPermissionsRoutes from './routes/rolesPermissions.routes.js';
+import salesCardsRoutes from './routes/salesCards.routes.js';
+import customersRoutes from './routes/customers.routes.js';
+import chatRoutes from './routes/chat.routes.js';
+import roomsRoutes from './routes/rooms.routes.js';
+import taskRoutes from "./routes/taskRoutes.js";
+import followUpIterationsRoutes from "./routes/followUpIterations.routes.js";
+import cronRoutes from "./routes/cronRoutes.js";
 
 const router = Router();
 

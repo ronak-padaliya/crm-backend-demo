@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
-import { customerQueries } from "../query";
-import { successResponse, errorResponse } from "../utils/responses";
+import { customerQueries } from "../query.js";
+import { successResponse, errorResponse } from "../utils/responses.js";
 import { error } from "console";
 
 export class CustomerController {

@@ -1,9 +1,9 @@
 import { Router, RequestHandler, Request, Response, NextFunction } from 'express';
-import { SalespersonController } from '../controllers/salesperson.controller';
+import { SalespersonController } from '../controllers/salesperson.controller.js';
 import { body } from 'express-validator';
-import { AuthenticatedRequest } from '../types';
-import { validateAddUser } from '../utils/validators';
-import { authenticateToken, checkRole, getAllDataForSuperAdmin } from '../middleware/auth';
+import { AuthenticatedRequest } from '../types/index.js';
+import { validateAddUser } from '../utils/validators.js';
+import { authenticateToken, checkRole, getAllDataForSuperAdmin } from '../middleware/auth.js';
 
 const router = Router();
 

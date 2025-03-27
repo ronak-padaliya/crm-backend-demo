@@ -1,9 +1,9 @@
 import { Router, RequestHandler, Request, Response, NextFunction } from 'express';
-import { SupervisorController } from '../controllers/supervisor.controller';
+import { SupervisorController } from '../controllers/supervisor.controller.js';
 import { body } from 'express-validator';
-import { AuthenticatedRequest } from '../types';
-import { authenticateToken, checkRole, getAllDataForSuperAdmin } from '../middleware/auth';
-import { validateAddUser } from '../utils/validators';
+import { AuthenticatedRequest } from '../types/index.js';
+import { authenticateToken, checkRole, getAllDataForSuperAdmin } from '../middleware/auth.js';
+import { validateAddUser } from '../utils/validators.js';
 
 
 const router = Router();

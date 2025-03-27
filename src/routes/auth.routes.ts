@@ -1,11 +1,11 @@
 import { Router } from 'express';
 import jwt, { JwtPayload } from 'jsonwebtoken';
-import { AuthController } from '../controllers/auth.controller';
-import { authenticateToken, checkRole } from '../middleware/auth';
-import { errorResponse, successResponse } from '../utils/responses'; 
-import { validateLogin, validateAddUser, validatePasswordReset, validateSuperAdminRegister } from '../utils/validators';
+import { AuthController } from '../controllers/auth.controller.js';
+import { authenticateToken, checkRole } from '../middleware/auth.js';
+import { errorResponse, successResponse } from '../utils/responses.js'; 
+import { validateLogin, validateAddUser, validatePasswordReset, validateSuperAdminRegister } from '../utils/validators.js';
 import { Request, Response, NextFunction } from 'express';
-import { AuthenticatedRequest } from '../types';
+import { AuthenticatedRequest } from '../types/index.js';
 
 const router = Router();
 

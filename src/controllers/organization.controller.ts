@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
-import { AuthenticatedRequest } from '../types';
+import { AuthenticatedRequest } from '../types/index.js';
 import { validationResult } from 'express-validator';
-import { organizationQueries } from '../query';
-import { successResponse, errorResponse, ResponseMessages } from '../utils/responses';
+import { organizationQueries } from '../query.js';
+import { successResponse, errorResponse, ResponseMessages } from '../utils/responses.js';
 
 export class OrganizationController {
   constructor() {

@@ -1,10 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt, { JwtPayload } from 'jsonwebtoken';
-import { AuthenticatedRequest, UserPayload, UserRole } from '../types';
-import { errorResponse } from '../utils/responses';
+import { AuthenticatedRequest, UserPayload, UserRole } from '../types/index.js';
+import { errorResponse } from '../utils/responses.js';
 import express from 'express';
 import bodyParser from 'body-parser';
-import db from '../helper/database';
+import db from '../helper/database.js';
 
 // if (!db) {
 //   console.error('Database connection is not initialized');

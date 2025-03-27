@@ -1,17 +1,18 @@
-import * as dotenv from 'dotenv';
+import dotenv from 'dotenv';
 dotenv.config();
 import express from 'express';
 import http from 'http';
-import db from './helper/database';
-import routes from './routes';
+import db from './helper/database.js';
+import routes from './routes.js';
 import cron from 'node-cron';
 import moment from 'moment-timezone';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
-import { authenticateToken } from './middleware/auth';
-import chatServer from './chatServer';
-import { checkOverdueTasks, setSocketIO } from "./cron/overdueTasks";
-import { initWebSocket } from './utils/notificationService';
+import { authenticateToken } from './middleware/auth.js';
+import chatServer from './chatServer.js';
+import { checkOverdueTasks, setSocketIO } from "./cron/overdueTasks.js";
+import { initWebSocket } from './utils/notificationService.js';
+import { EventEmitter } from 'events';
 
 // ✅ Initialize Express & HTTP Server
 const app = express();
@@ -104,5 +105,8 @@ app.use((err: Error, req: express.Request, res: express.Response, next: express.
   console.error('Unhandled error:', err);
   res.status(500).json({ error: 'Internal Server Error' });
 });
+
+const Bus = new EventEmitter();
+Bus.setMaxListeners(20);
 
 export default app;

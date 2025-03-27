@@ -1,10 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
 import bcrypt from 'bcryptjs';
 import { validationResult } from 'express-validator';
-import { successResponse, errorResponse, ResponseMessages } from '../utils/responses';
-import { MailService } from '../services/mail.service';
-import { supervisorQueries } from '../query';
-import { AuthenticatedRequest } from '../types';
+import { successResponse, errorResponse, ResponseMessages } from '../utils/responses.js';
+import { MailService } from '../services/mail.service.js';
+import { supervisorQueries } from '../query.js';
+import { AuthenticatedRequest } from '../types/index.js';
 import jwt from 'jsonwebtoken';
 
 
